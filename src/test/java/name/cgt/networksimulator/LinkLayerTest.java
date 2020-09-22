@@ -26,16 +26,20 @@ public class LinkLayerTest {
     public void send_bytes_to_link() {
         final var link = context.mock(Link.class);
         context.checking(new Expectations() {{
-            final var expectedData = new byte[1];
-            expectedData[0] = 'A';
+            final byte[] expectedData = byteArrayOfA();
             final var expectedFrame = new Frame(expectedData);
             oneOf(link).send(with(equal(expectedFrame)));
         }});
 
         final var networkAdapter = new NetworkAdapter(link);
-        final var data = new byte[1];
-        data[0] = 'A';
+        final byte[] data = byteArrayOfA();
         networkAdapter.send(data);
+    }
+
+    private static byte[] byteArrayOfA() {
+        final var expectedData = new byte[1];
+        expectedData[0] = 'A';
+        return expectedData;
     }
 
     private static class Frame {
