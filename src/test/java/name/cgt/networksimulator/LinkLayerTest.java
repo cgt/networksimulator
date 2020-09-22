@@ -16,7 +16,7 @@ public class LinkLayerTest {
     @Test
     public void send_empty_frame_to_link() {
         context.checking(new Expectations() {{
-            oneOf(link).send(with(aNonNull(Frame.class)));
+            oneOf(link).send(with(equal(new Frame(null))));
         }});
 
         final var networkAdapter = new NetworkAdapter(link);
