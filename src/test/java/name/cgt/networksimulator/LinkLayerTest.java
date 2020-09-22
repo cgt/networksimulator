@@ -31,8 +31,7 @@ public class LinkLayerTest {
         }});
 
         final var networkAdapter = new NetworkAdapter(link);
-        final byte[] data = byteArrayOfA();
-        networkAdapter.send(data);
+        networkAdapter.send(byteArrayOfA());
     }
 
     private static byte[] byteArrayOfA() {
