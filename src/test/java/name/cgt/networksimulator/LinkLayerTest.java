@@ -5,6 +5,8 @@ import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+import java.util.Arrays;
+
 public class LinkLayerTest {
     @RegisterExtension
     final JUnit5Mockery context = new JUnit5Mockery();
@@ -17,10 +19,51 @@ public class LinkLayerTest {
         }});
 
         final var networkAdapter = new NetworkAdapter(link);
-        networkAdapter.send();
+        networkAdapter.send(null);
+    }
+
+    @Test
+    public void send_bytes_to_link() {
+        final var link = context.mock(Link.class);
+        context.checking(new Expectations() {{
+            final var expectedData = new byte[1];
+            expectedData[0] = 'A';
+            final var expectedFrame = new Frame(expectedData);
+            oneOf(link).send(with(equal(expectedFrame)));
+        }});
+
+        final var networkAdapter = new NetworkAdapter(link);
+        final var data = new byte[1];
+        data[0] = 'A';
+        networkAdapter.send(data);
     }
 
     private static class Frame {
+        private final byte[] data;
+
+        public Frame(byte[] data) {
+            this.data = data;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Frame frame = (Frame) o;
+            return Arrays.equals(data, frame.data);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(data);
+        }
+
+        @Override
+        public String toString() {
+            return "Frame{" +
+              "data=" + Arrays.toString(data) +
+              '}';
+        }
     }
 
     private static class NetworkAdapter {
@@ -30,8 +73,8 @@ public class LinkLayerTest {
             this.link = link;
         }
 
-        public void send() {
-            link.send(new Frame());
+        public void send(byte[] data) {
+            link.send(new Frame(data));
         }
     }
 
