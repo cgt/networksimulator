@@ -35,9 +35,7 @@ public class LinkLayerTest {
     }
 
     private static byte[] byteArrayOfA() {
-        final var expectedData = new byte[1];
-        expectedData[0] = 'A';
-        return expectedData;
+        return "A".getBytes();
     }
 
     private static class Frame {
