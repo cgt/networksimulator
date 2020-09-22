@@ -14,16 +14,6 @@ public class LinkLayerTest {
     private final Link link = context.mock(Link.class);
 
     @Test
-    public void send_empty_frame_to_link() {
-        context.checking(new Expectations() {{
-            oneOf(link).send(with(equal(new Frame(null))));
-        }});
-
-        final var networkAdapter = new NetworkAdapter(link);
-        networkAdapter.send(null);
-    }
-
-    @Test
     public void send_bytes_to_link() {
         context.checking(new Expectations() {{
             final var expectedFrame = new Frame("A".getBytes());
