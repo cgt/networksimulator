@@ -11,9 +11,10 @@ public class LinkLayerTest {
     @RegisterExtension
     final JUnit5Mockery context = new JUnit5Mockery();
 
+    private final Link link = context.mock(Link.class);
+
     @Test
     public void send_empty_frame_to_link() {
-        final var link = context.mock(Link.class);
         context.checking(new Expectations() {{
             oneOf(link).send(with(aNonNull(Frame.class)));
         }});
@@ -24,7 +25,6 @@ public class LinkLayerTest {
 
     @Test
     public void send_bytes_to_link() {
-        final var link = context.mock(Link.class);
         context.checking(new Expectations() {{
             final var expectedFrame = new Frame("A".getBytes());
             oneOf(link).send(with(equal(expectedFrame)));
