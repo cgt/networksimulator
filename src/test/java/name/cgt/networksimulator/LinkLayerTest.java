@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class LinkLayerTest {
     @RegisterExtension
@@ -16,55 +17,78 @@ public class LinkLayerTest {
     @Test
     public void send_bytes_to_link() {
         context.checking(new Expectations() {{
-            final var expectedFrame = new Frame("A".getBytes());
+            final var expectedFrame = new Frame(null, "A".getBytes());
             oneOf(link).send(with(equal(expectedFrame)));
         }});
 
-        final var networkAdapter = new NetworkAdapter(link);
+        final var networkAdapter = new NetworkAdapter(null, link);
         networkAdapter.send("A".getBytes());
     }
 
-    private static class Frame {
-        private final byte[] data;
+    @Test
+    public void sent_frames_contain_adapters_address() {
+        final var networkAdapterAddress = new NetworkAdapterAddress();
+        context.checking(new Expectations() {{
+            final var expectedFrame = new Frame(networkAdapterAddress, null);
+            oneOf(link).send(with(equal(expectedFrame)));
+        }});
 
-        public Frame(byte[] data) {
-            this.data = data;
-        }
+        final var networkAdapter = new NetworkAdapter(networkAdapterAddress, link);
+        networkAdapter.send(null);
+    }
+
+    private static class Frame {
+        private final NetworkAdapterAddress source;
+        private final byte[] data;
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Frame frame = (Frame) o;
-            return Arrays.equals(data, frame.data);
+            return Objects.equals(source, frame.source) &&
+              Arrays.equals(data, frame.data);
         }
 
         @Override
         public int hashCode() {
-            return Arrays.hashCode(data);
+            int result = Objects.hash(source);
+            result = 31 * result + Arrays.hashCode(data);
+            return result;
+        }
+
+        public Frame(NetworkAdapterAddress networkAdapterAddress, byte[] data) {
+            source = networkAdapterAddress;
+            this.data = data;
         }
 
         @Override
         public String toString() {
             return "Frame{" +
-              "data=" + Arrays.toString(data) +
+              "source=" + source +
+              ", data=" + Arrays.toString(data) +
               '}';
         }
     }
 
     private static class NetworkAdapter {
+        private final NetworkAdapterAddress address;
         private final Link link;
 
-        public NetworkAdapter(Link link) {
+        public NetworkAdapter(NetworkAdapterAddress address, Link link) {
+            this.address = address;
             this.link = link;
         }
 
         public void send(byte[] data) {
-            link.send(new Frame(data));
+            link.send(new Frame(address, data));
         }
     }
 
     private interface Link {
         void send(Frame frame);
+    }
+
+    private static class NetworkAdapterAddress {
     }
 }
