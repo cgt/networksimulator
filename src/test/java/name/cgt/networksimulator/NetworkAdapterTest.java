@@ -31,11 +31,13 @@ public class NetworkAdapterTest {
 
     @Test
     public void notifies_listener_of_received_frames() {
+        final var aFrame = new Frame(null, null, null);
+
         context.checking(new Expectations() {{
-            oneOf(listener).onFrame(with(equal(new Frame(null, null, null))));
+            oneOf(listener).onFrame(with(equal(aFrame)));
         }});
 
         final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
-        networkAdapter.onFrame(new Frame(null, null, null));
+        networkAdapter.onFrame(aFrame);
     }
 }
