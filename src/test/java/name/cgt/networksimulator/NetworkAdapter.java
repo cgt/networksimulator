@@ -26,5 +26,6 @@ class NetworkAdapter {
 
     public void connect(Link link) {
         this.link = link;
+        link.onConnected(this);
     }
 }

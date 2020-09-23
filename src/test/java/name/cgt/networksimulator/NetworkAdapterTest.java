@@ -15,11 +15,23 @@ public class NetworkAdapterTest {
     private final FrameListener listener = context.mock(FrameListener.class);
 
     @Test
+    public void notifies_link_when_connected() {
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+
+        context.checking(new Expectations() {{
+            oneOf(link).onConnected(networkAdapter);
+        }});
+
+        networkAdapter.connect(link);
+    }
+
+    @Test
     public void sends_frame_to_link() {
         final var destinationAddress = new NetworkAdapterAddress();
         final var message = "message".getBytes();
 
         context.checking(new Expectations() {{
+            allowing(link).onConnected(with(any(NetworkAdapter.class)));
             oneOf(link).send(with(equal(
               new Frame(adapterAddress, destinationAddress, message)
             )));
@@ -72,6 +84,10 @@ public class NetworkAdapterTest {
             @Override
             public void send(Frame frame) {
                 destination.onFrame(frame);
+            }
+
+            @Override
+            public void onConnected(NetworkAdapter networkAdapter) {
             }
         };
         final var sourceAddress = new NetworkAdapterAddress();
