@@ -48,4 +48,18 @@ public class NetworkAdapterTest {
         final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
         networkAdapter.onFrame(aFrame);
     }
+
+    @Test
+    public void does_not_notify_listener_of_frames_not_destined_for_adapter() {
+        final var source = new NetworkAdapterAddress();
+        final var someOtherAdapter = new NetworkAdapterAddress();
+        final var aFrame = new Frame(source, someOtherAdapter, null);
+
+        context.checking(new Expectations() {{
+            never(listener);
+        }});
+
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
+        networkAdapter.onFrame(aFrame);
+    }
 }

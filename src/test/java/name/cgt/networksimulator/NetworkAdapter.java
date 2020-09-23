@@ -20,7 +20,7 @@ class NetworkAdapter {
     }
 
     public void onFrame(Frame frame) {
-        if (listener != null) {
+        if (listener != null && frame.isFor(address)) {
             listener.onFrame(frame);
         }
     }

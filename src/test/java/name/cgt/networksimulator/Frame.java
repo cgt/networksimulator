@@ -39,4 +39,8 @@ class Frame {
           ", data=" + Arrays.toString(data) +
           '}';
     }
+
+    public boolean isFor(NetworkAdapterAddress address) {
+        return address.equals(destination);
+    }
 }
