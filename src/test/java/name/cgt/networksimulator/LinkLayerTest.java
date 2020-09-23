@@ -48,7 +48,7 @@ public class LinkLayerTest {
         networkAdapter.send(destinationAddress, null);
     }
 
-    private static class Frame {
+    static class Frame {
         private final NetworkAdapterAddress source;
         private final NetworkAdapterAddress destination;
         private final byte[] data;
@@ -86,7 +86,7 @@ public class LinkLayerTest {
         }
     }
 
-    private static class NetworkAdapter {
+    static class NetworkAdapter {
         private final NetworkAdapterAddress address;
         private final Link link;
 
@@ -100,7 +100,7 @@ public class LinkLayerTest {
         }
     }
 
-    private interface Link {
+    interface Link {
         void send(Frame frame);
     }
 }
