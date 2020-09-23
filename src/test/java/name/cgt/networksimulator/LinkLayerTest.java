@@ -5,9 +5,6 @@ import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class LinkLayerTest {
     @RegisterExtension
     final JUnit5Mockery context = new JUnit5Mockery();
@@ -46,44 +43,6 @@ public class LinkLayerTest {
         }});
         final var networkAdapter = new NetworkAdapter(null, link);
         networkAdapter.send(destinationAddress, null);
-    }
-
-    static class Frame {
-        private final NetworkAdapterAddress source;
-        private final NetworkAdapterAddress destination;
-        private final byte[] data;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Frame frame = (Frame) o;
-            return Objects.equals(source, frame.source) &&
-              Objects.equals(destination, frame.destination) &&
-              Arrays.equals(data, frame.data);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = Objects.hash(source, destination);
-            result = 31 * result + Arrays.hashCode(data);
-            return result;
-        }
-
-        public Frame(NetworkAdapterAddress source, NetworkAdapterAddress destination, byte[] data) {
-            this.source = source;
-            this.destination = destination;
-            this.data = data;
-        }
-
-        @Override
-        public String toString() {
-            return "Frame{" +
-              "source=" + source +
-              ", destination=" + destination +
-              ", data=" + Arrays.toString(data) +
-              '}';
-        }
     }
 
     static class NetworkAdapter {
