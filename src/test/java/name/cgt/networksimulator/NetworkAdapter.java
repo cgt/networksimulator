@@ -20,6 +20,8 @@ class NetworkAdapter {
     }
 
     public void onFrame(Frame frame) {
-        listener.onFrame(frame);
+        if (listener != null) {
+            listener.onFrame(frame);
+        }
     }
 }

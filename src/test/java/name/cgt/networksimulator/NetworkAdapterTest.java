@@ -40,4 +40,11 @@ public class NetworkAdapterTest {
         final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
         networkAdapter.onFrame(aFrame);
     }
+
+    @Test
+    public void does_not_notify_listener_if_no_listener_registered() {
+        final var aFrame = new Frame(null, null, null);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+        networkAdapter.onFrame(aFrame);
+    }
 }
