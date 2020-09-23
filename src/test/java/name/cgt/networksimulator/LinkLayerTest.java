@@ -17,28 +17,40 @@ public class LinkLayerTest {
     @Test
     public void send_bytes_to_link() {
         context.checking(new Expectations() {{
-            final var expectedFrame = new Frame(null, "A".getBytes());
+            final var expectedFrame = new Frame(null, null, "A".getBytes());
             oneOf(link).send(with(equal(expectedFrame)));
         }});
 
         final var networkAdapter = new NetworkAdapter(null, link);
-        networkAdapter.send("A".getBytes());
+        networkAdapter.send(null, "A".getBytes());
     }
 
     @Test
     public void sent_frames_contain_adapters_address() {
         final var networkAdapterAddress = new NetworkAdapterAddress();
         context.checking(new Expectations() {{
-            final var expectedFrame = new Frame(networkAdapterAddress, null);
+            final var expectedFrame = new Frame(networkAdapterAddress, null, null);
             oneOf(link).send(with(equal(expectedFrame)));
         }});
 
         final var networkAdapter = new NetworkAdapter(networkAdapterAddress, link);
-        networkAdapter.send(null);
+        networkAdapter.send(null, null);
+    }
+
+    @Test
+    public void sent_frames_contain_destination_address() {
+        final var destinationAddress = new NetworkAdapterAddress();
+        context.checking(new Expectations() {{
+            final var expectedFrame = new Frame(null, destinationAddress, null);
+            oneOf(link).send(with(equal(expectedFrame)));
+        }});
+        final var networkAdapter = new NetworkAdapter(null, link);
+        networkAdapter.send(destinationAddress, null);
     }
 
     private static class Frame {
         private final NetworkAdapterAddress source;
+        private final NetworkAdapterAddress destination;
         private final byte[] data;
 
         @Override
@@ -47,18 +59,20 @@ public class LinkLayerTest {
             if (o == null || getClass() != o.getClass()) return false;
             Frame frame = (Frame) o;
             return Objects.equals(source, frame.source) &&
+              Objects.equals(destination, frame.destination) &&
               Arrays.equals(data, frame.data);
         }
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(source);
+            int result = Objects.hash(source, destination);
             result = 31 * result + Arrays.hashCode(data);
             return result;
         }
 
-        public Frame(NetworkAdapterAddress networkAdapterAddress, byte[] data) {
+        public Frame(NetworkAdapterAddress networkAdapterAddress, NetworkAdapterAddress destinationAddress, byte[] data) {
             source = networkAdapterAddress;
+            destination = destinationAddress;
             this.data = data;
         }
 
@@ -66,6 +80,7 @@ public class LinkLayerTest {
         public String toString() {
             return "Frame{" +
               "source=" + source +
+              ", destination=" + destination +
               ", data=" + Arrays.toString(data) +
               '}';
         }
@@ -80,8 +95,8 @@ public class LinkLayerTest {
             this.link = link;
         }
 
-        public void send(byte[] data) {
-            link.send(new Frame(address, data));
+        public void send(NetworkAdapterAddress destination, byte[] data) {
+            link.send(new Frame(address, destination, data));
         }
     }
 
