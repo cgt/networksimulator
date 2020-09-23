@@ -10,6 +10,7 @@ public class NetworkAdapterTest {
     final JUnit5Mockery context = new JUnit5Mockery();
 
     private final Link link = context.mock(Link.class);
+    private final FrameListener listener = context.mock(FrameListener.class);
 
     @Test
     public void sends_frame_to_link() {
@@ -29,8 +30,6 @@ public class NetworkAdapterTest {
 
     @Test
     public void notifies_listener_of_received_frames() {
-        final var listener = context.mock(FrameListener.class);
-
         context.checking(new Expectations() {{
             oneOf(listener).onFrame(with(equal(new Frame(null, null, null))));
         }});
