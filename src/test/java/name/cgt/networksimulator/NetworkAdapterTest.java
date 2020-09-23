@@ -35,7 +35,7 @@ public class NetworkAdapterTest {
             oneOf(listener).onFrame(with(equal(new Frame(null, null, null))));
         }});
 
-        final var networkAdapter = new NetworkAdapter(new NetworkAdapterAddress(), null, listener);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
         networkAdapter.onFrame(new Frame(null, null, null));
     }
 }
