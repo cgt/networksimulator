@@ -62,4 +62,31 @@ public class NetworkAdapterTest {
         final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
         networkAdapter.onFrame(aFrame);
     }
+
+    @Test
+    public void send_frame_from_one_adapter_to_another() {
+        final var directLink = new Link() {
+            NetworkAdapter destination;
+
+            @Override
+            public void send(Frame frame) {
+                destination.onFrame(frame);
+            }
+        };
+        final var sourceAddress = new NetworkAdapterAddress();
+        final var sourceAdapter = new NetworkAdapter(sourceAddress, directLink);
+        final var destinationAddress = new NetworkAdapterAddress();
+        final var destinationListener = context.mock(FrameListener.class, "destinationListener");
+        final var destinationAdapter = new NetworkAdapter(destinationAddress, directLink, destinationListener);
+        directLink.destination = destinationAdapter;
+
+        final var frameData = "payload".getBytes();
+
+        context.checking(new Expectations() {{
+            final var expectedFrame = new Frame(sourceAddress, destinationAddress, frameData);
+            oneOf(destinationListener).onFrame(with(equal(expectedFrame)));
+        }});
+
+        sourceAdapter.send(destinationAddress, frameData);
+    }
 }
