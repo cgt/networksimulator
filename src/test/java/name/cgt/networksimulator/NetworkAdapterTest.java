@@ -44,4 +44,20 @@ public class NetworkAdapterTest {
         final var networkAdapter = new NetworkAdapter(null, link);
         networkAdapter.send(destinationAddress, null);
     }
+
+    @Test
+    public void sends_frame_to_link() {
+        final var adapterAddress = new NetworkAdapterAddress();
+        final var destinationAddress = new NetworkAdapterAddress();
+        final var message = "message".getBytes();
+
+        context.checking(new Expectations() {{
+            oneOf(link).send(with(equal(
+              new Frame(adapterAddress, destinationAddress, message)
+            )));
+        }});
+
+        final var networkAdapter = new NetworkAdapter(adapterAddress, link);
+        networkAdapter.send(destinationAddress, message);
+    }
 }
