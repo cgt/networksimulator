@@ -99,8 +99,4 @@ public class LinkLayerTest {
             link.send(new Frame(address, destination, data));
         }
     }
-
-    interface Link {
-        void send(Frame frame);
-    }
 }
