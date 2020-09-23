@@ -37,8 +37,9 @@ public class NetworkAdapterTest {
     }
 
     @Test
-    public void notifies_listener_of_received_frames() {
-        final var aFrame = new Frame(null, null, null);
+    public void notifies_listener_of_received_frames_destined_for_adapter() {
+        final var source = new NetworkAdapterAddress();
+        final var aFrame = new Frame(source, adapterAddress, null);
 
         context.checking(new Expectations() {{
             oneOf(listener).onFrame(with(equal(aFrame)));
