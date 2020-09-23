@@ -9,12 +9,13 @@ public class NetworkAdapterTest {
     @RegisterExtension
     final JUnit5Mockery context = new JUnit5Mockery();
 
+    private final NetworkAdapterAddress adapterAddress = new NetworkAdapterAddress();
+
     private final Link link = context.mock(Link.class);
     private final FrameListener listener = context.mock(FrameListener.class);
 
     @Test
     public void sends_frame_to_link() {
-        final var adapterAddress = new NetworkAdapterAddress();
         final var destinationAddress = new NetworkAdapterAddress();
         final var message = "message".getBytes();
 
