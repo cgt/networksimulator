@@ -2,7 +2,7 @@ package name.cgt.networksimulator;
 
 class NetworkAdapter {
     private final NetworkAdapterAddress address;
-    private final Link link;
+    private Link link;
     private FrameListener listener;
 
     public NetworkAdapter(NetworkAdapterAddress address, Link link) {
@@ -23,5 +23,9 @@ class NetworkAdapter {
         if (listener != null && frame.isFor(address)) {
             listener.onFrame(frame);
         }
+    }
+
+    public void connect(Link link) {
+        this.link = link;
     }
 }

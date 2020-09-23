@@ -25,7 +25,8 @@ public class NetworkAdapterTest {
             )));
         }});
 
-        final var networkAdapter = new NetworkAdapter(adapterAddress, link);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+        networkAdapter.connect(link);
         networkAdapter.send(destinationAddress, message);
     }
 
