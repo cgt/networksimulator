@@ -70,9 +70,9 @@ public class LinkLayerTest {
             return result;
         }
 
-        public Frame(NetworkAdapterAddress source, NetworkAdapterAddress destinationAddress, byte[] data) {
+        public Frame(NetworkAdapterAddress source, NetworkAdapterAddress destination, byte[] data) {
             this.source = source;
-            destination = destinationAddress;
+            this.destination = destination;
             this.data = data;
         }
 
