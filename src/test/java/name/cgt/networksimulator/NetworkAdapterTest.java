@@ -26,4 +26,16 @@ public class NetworkAdapterTest {
         final var networkAdapter = new NetworkAdapter(adapterAddress, link);
         networkAdapter.send(destinationAddress, message);
     }
+
+    @Test
+    public void notifies_listener_of_received_frames() {
+        final var listener = context.mock(FrameListener.class);
+
+        context.checking(new Expectations() {{
+            oneOf(listener).onFrame(with(equal(new Frame(null, null, null))));
+        }});
+
+        final var networkAdapter = new NetworkAdapter(new NetworkAdapterAddress(), null, listener);
+        networkAdapter.onFrame(new Frame(null, null, null));
+    }
 }
