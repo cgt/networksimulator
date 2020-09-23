@@ -12,7 +12,7 @@ public class LinkLayerTest {
     private final Link link = context.mock(Link.class);
 
     @Test
-    public void send_bytes_to_link() {
+    public void sent_frames_contain_byte_array_payload() {
         context.checking(new Expectations() {{
             final var expectedFrame = new Frame(null, null, "A".getBytes());
             oneOf(link).send(with(equal(expectedFrame)));
