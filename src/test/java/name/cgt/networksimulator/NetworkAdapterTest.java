@@ -5,7 +5,7 @@ import org.jmock.junit5.JUnit5Mockery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class LinkLayerTest {
+public class NetworkAdapterTest {
     @RegisterExtension
     final JUnit5Mockery context = new JUnit5Mockery();
 
