@@ -30,6 +30,13 @@ public class NetworkAdapterTest {
     }
 
     @Test
+    public void does_not_notify_listener_if_no_listener_registered() {
+        final var aFrame = new Frame(null, null, null);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+        networkAdapter.onFrame(aFrame);
+    }
+
+    @Test
     public void notifies_listener_of_received_frames() {
         final var aFrame = new Frame(null, null, null);
 
@@ -38,13 +45,6 @@ public class NetworkAdapterTest {
         }});
 
         final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
-        networkAdapter.onFrame(aFrame);
-    }
-
-    @Test
-    public void does_not_notify_listener_if_no_listener_registered() {
-        final var aFrame = new Frame(null, null, null);
-        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
         networkAdapter.onFrame(aFrame);
     }
 }
