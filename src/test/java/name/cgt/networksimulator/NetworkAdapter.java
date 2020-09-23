@@ -5,13 +5,12 @@ class NetworkAdapter {
     private Link link;
     private FrameListener listener;
 
-    public NetworkAdapter(NetworkAdapterAddress address, Link link) {
+    public NetworkAdapter(NetworkAdapterAddress address) {
         this.address = address;
-        this.link = link;
     }
 
-    public NetworkAdapter(NetworkAdapterAddress address, Link link, FrameListener listener) {
-        this(address, link);
+    public NetworkAdapter(NetworkAdapterAddress address, FrameListener listener) {
+        this(address);
         this.listener = listener;
     }
 

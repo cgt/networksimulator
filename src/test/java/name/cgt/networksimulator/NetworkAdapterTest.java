@@ -25,7 +25,7 @@ public class NetworkAdapterTest {
             )));
         }});
 
-        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+        final var networkAdapter = new NetworkAdapter(adapterAddress);
         networkAdapter.connect(link);
         networkAdapter.send(destinationAddress, message);
     }
@@ -33,7 +33,7 @@ public class NetworkAdapterTest {
     @Test
     public void does_not_notify_listener_if_no_listener_registered() {
         final var aFrame = new Frame(null, null, null);
-        final var networkAdapter = new NetworkAdapter(adapterAddress, null);
+        final var networkAdapter = new NetworkAdapter(adapterAddress);
         networkAdapter.onFrame(aFrame);
     }
 
@@ -46,7 +46,7 @@ public class NetworkAdapterTest {
             oneOf(listener).onFrame(with(equal(aFrame)));
         }});
 
-        final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, listener);
         networkAdapter.onFrame(aFrame);
     }
 
@@ -60,7 +60,7 @@ public class NetworkAdapterTest {
             never(listener);
         }});
 
-        final var networkAdapter = new NetworkAdapter(adapterAddress, null, listener);
+        final var networkAdapter = new NetworkAdapter(adapterAddress, listener);
         networkAdapter.onFrame(aFrame);
     }
 
@@ -75,11 +75,11 @@ public class NetworkAdapterTest {
             }
         };
         final var sourceAddress = new NetworkAdapterAddress();
-        final var sourceAdapter = new NetworkAdapter(sourceAddress, null);
+        final var sourceAdapter = new NetworkAdapter(sourceAddress);
         sourceAdapter.connect(directLink);
         final var destinationAddress = new NetworkAdapterAddress();
         final var destinationListener = context.mock(FrameListener.class, "destinationListener");
-        final var destinationAdapter = new NetworkAdapter(destinationAddress, null, destinationListener);
+        final var destinationAdapter = new NetworkAdapter(destinationAddress, destinationListener);
         destinationAdapter.connect(directLink);
         directLink.destination = destinationAdapter;
 
