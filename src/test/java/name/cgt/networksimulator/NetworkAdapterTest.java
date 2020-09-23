@@ -75,10 +75,12 @@ public class NetworkAdapterTest {
             }
         };
         final var sourceAddress = new NetworkAdapterAddress();
-        final var sourceAdapter = new NetworkAdapter(sourceAddress, directLink);
+        final var sourceAdapter = new NetworkAdapter(sourceAddress, null);
+        sourceAdapter.connect(directLink);
         final var destinationAddress = new NetworkAdapterAddress();
         final var destinationListener = context.mock(FrameListener.class, "destinationListener");
-        final var destinationAdapter = new NetworkAdapter(destinationAddress, directLink, destinationListener);
+        final var destinationAdapter = new NetworkAdapter(destinationAddress, null, destinationListener);
+        destinationAdapter.connect(directLink);
         directLink.destination = destinationAdapter;
 
         final var frameData = "payload".getBytes();
