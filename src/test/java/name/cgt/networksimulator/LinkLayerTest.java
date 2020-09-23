@@ -103,7 +103,4 @@ public class LinkLayerTest {
     private interface Link {
         void send(Frame frame);
     }
-
-    private static class NetworkAdapterAddress {
-    }
 }
