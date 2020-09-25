@@ -32,7 +32,7 @@ public class NetworkAdapterTest {
 
         context.checking(new Expectations() {{
             allowing(link).onConnected(with(any(NetworkAdapter.class)));
-            oneOf(link).send(with(equal(
+            oneOf(link).onFrame(with(equal(
               new Frame(adapterAddress, destinationAddress, message)
             )));
         }});
@@ -83,10 +83,6 @@ public class NetworkAdapterTest {
 
             @Override
             public void onFrame(Frame frame) {
-            }
-
-            @Override
-            public void send(Frame frame) {
                 destination.onFrame(frame);
             }
 

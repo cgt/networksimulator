@@ -15,7 +15,7 @@ class NetworkAdapter implements FrameListener {
     }
 
     public void send(NetworkAdapterAddress destination, byte[] data) {
-        link.send(new Frame(address, destination, data));
+        link.onFrame(new Frame(address, destination, data));
     }
 
     public void onFrame(Frame frame) {
