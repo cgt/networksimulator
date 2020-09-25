@@ -82,6 +82,10 @@ public class NetworkAdapterTest {
             NetworkAdapter destination;
 
             @Override
+            public void onFrame(Frame frame) {
+            }
+
+            @Override
             public void send(Frame frame) {
                 destination.onFrame(frame);
             }

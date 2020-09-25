@@ -1,6 +1,6 @@
 package name.cgt.networksimulator;
 
-interface Link {
+interface Link extends FrameListener {
     void send(Frame frame);
 
     void onConnected(FrameListener frameListener);
