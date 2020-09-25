@@ -111,16 +111,14 @@ public class NetworkAdapterTest {
 
     @Test
     public void connect_two_adapters_directly() {
-        final var addressA = new NetworkAdapterAddress();
-        final var addressB = new NetworkAdapterAddress();
-        final var a = new NetworkAdapter(addressA);
-        final var b = new NetworkAdapter(addressB, listener);
+        final var a = new NetworkAdapter(new NetworkAdapterAddress());
+        final var b = new NetworkAdapter(new NetworkAdapterAddress(), listener);
 
         context.checking(new Expectations() {{
-            oneOf(listener).onFrame(new Frame(addressA, addressB, "hello".getBytes()));
+            oneOf(listener).onFrame(new Frame(a.address(), b.address(), "hello".getBytes()));
         }});
 
         a.connect(b);
-        a.send(addressB, "hello".getBytes());
+        a.send(b.address(), "hello".getBytes());
     }
 }

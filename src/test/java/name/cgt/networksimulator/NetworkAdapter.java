@@ -14,6 +14,10 @@ class NetworkAdapter implements Link {
         this.listener = listener;
     }
 
+    public NetworkAdapterAddress address() {
+        return address;
+    }
+
     public void send(NetworkAdapterAddress destination, byte[] data) {
         link.onFrame(new Frame(address, destination, data));
     }
