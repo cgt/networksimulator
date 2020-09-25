@@ -24,11 +24,9 @@ public class SwitchTest {
     }
 
     private static class Switch implements Link {
-        private final Link link;
         private FrameListener frameListener;
 
         public Switch(Link link) {
-            this.link = link;
         }
 
         @Override
