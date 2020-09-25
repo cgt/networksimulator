@@ -87,7 +87,7 @@ public class NetworkAdapterTest {
             }
 
             @Override
-            public void onConnected(NetworkAdapter networkAdapter) {
+            public void onConnected(FrameListener frameListener) {
             }
         };
         final var sourceAddress = new NetworkAdapterAddress();
