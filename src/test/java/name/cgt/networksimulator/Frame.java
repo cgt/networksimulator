@@ -8,6 +8,12 @@ class Frame {
     private final NetworkAdapterAddress destination;
     private final byte[] data;
 
+    public Frame(NetworkAdapterAddress source, NetworkAdapterAddress destination, byte[] data) {
+        this.source = source;
+        this.destination = destination;
+        this.data = data;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,12 +29,6 @@ class Frame {
         int result = Objects.hash(source, destination);
         result = 31 * result + Arrays.hashCode(data);
         return result;
-    }
-
-    public Frame(NetworkAdapterAddress source, NetworkAdapterAddress destination, byte[] data) {
-        this.source = source;
-        this.destination = destination;
-        this.data = data;
     }
 
     @Override
