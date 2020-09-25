@@ -26,9 +26,6 @@ public class SwitchTest {
     private static class Switch implements Link {
         private FrameListener frameListener;
 
-        public Switch() {
-        }
-
         @Override
         public void onConnected(FrameListener frameListener) {
             this.frameListener = frameListener;
