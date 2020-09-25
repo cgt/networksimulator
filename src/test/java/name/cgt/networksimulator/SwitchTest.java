@@ -24,16 +24,16 @@ public class SwitchTest {
     }
 
     private static class Switch implements Link {
-        private FrameListener frameListener;
+        private FrameListener link;
 
         @Override
         public void onConnected(FrameListener link) {
-            this.frameListener = link;
+            this.link = link;
         }
 
         @Override
         public void onFrame(Frame frame) {
-            frameListener.onFrame(frame);
+            link.onFrame(frame);
         }
     }
 }
