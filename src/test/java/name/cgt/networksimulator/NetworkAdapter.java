@@ -1,6 +1,6 @@
 package name.cgt.networksimulator;
 
-class NetworkAdapter implements FrameListener {
+class NetworkAdapter implements FrameListener, Link {
     private final NetworkAdapterAddress address;
     private Link link;
     private FrameListener listener;
@@ -27,5 +27,9 @@ class NetworkAdapter implements FrameListener {
     public void connect(Link link) {
         this.link = link;
         link.onConnected(this);
+    }
+
+    @Override
+    public void onConnected(FrameListener frameListener) {
     }
 }
