@@ -18,16 +18,24 @@ public class SwitchTest {
             oneOf(link).onFrame(with(equal(expectedFrame)));
         }});
 
-        final Link switch_ = new Link() {
-            @Override
-            public void onConnected(FrameListener frameListener) {
-            }
-
-            @Override
-            public void onFrame(Frame frame) {
-                link.onFrame(frame);
-            }
-        };
+        final Link switch_ = new Switch(link);
         switch_.onFrame(expectedFrame);
+    }
+
+    private static class Switch implements Link {
+        private final Link link;
+
+        public Switch(Link link) {
+            this.link = link;
+        }
+
+        @Override
+        public void onConnected(FrameListener frameListener) {
+        }
+
+        @Override
+        public void onFrame(Frame frame) {
+            link.onFrame(frame);
+        }
     }
 }
