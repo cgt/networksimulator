@@ -18,7 +18,7 @@ public class SwitchTest {
             oneOf(link).onFrame(with(equal(expectedFrame)));
         }});
 
-        final Link switch_ = new Switch(null);
+        final Link switch_ = new Switch();
         switch_.onConnected(link);
         switch_.onFrame(expectedFrame);
     }
@@ -26,7 +26,7 @@ public class SwitchTest {
     private static class Switch implements Link {
         private FrameListener frameListener;
 
-        public Switch(Link link) {
+        public Switch() {
         }
 
         @Override
