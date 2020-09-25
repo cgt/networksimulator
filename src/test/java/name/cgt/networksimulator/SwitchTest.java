@@ -27,8 +27,8 @@ public class SwitchTest {
         private FrameListener frameListener;
 
         @Override
-        public void onConnected(FrameListener frameListener) {
-            this.frameListener = frameListener;
+        public void onConnected(FrameListener link) {
+            this.frameListener = link;
         }
 
         @Override
