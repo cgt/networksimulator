@@ -77,39 +77,6 @@ public class NetworkAdapterTest {
     }
 
     @Test
-    public void send_frame_from_one_adapter_to_another() {
-        final var directLink = new Link() {
-            NetworkAdapter destination;
-
-            @Override
-            public void onFrame(Frame frame) {
-                destination.onFrame(frame);
-            }
-
-            @Override
-            public void onConnected(FrameListener frameListener) {
-            }
-        };
-        final var sourceAddress = new NetworkAdapterAddress();
-        final var sourceAdapter = new NetworkAdapter(sourceAddress);
-        sourceAdapter.connect(directLink);
-        final var destinationAddress = new NetworkAdapterAddress();
-        final var destinationListener = context.mock(FrameListener.class, "destinationListener");
-        final var destinationAdapter = new NetworkAdapter(destinationAddress, destinationListener);
-        destinationAdapter.connect(directLink);
-        directLink.destination = destinationAdapter;
-
-        final var frameData = "payload".getBytes();
-
-        context.checking(new Expectations() {{
-            final var expectedFrame = new Frame(sourceAddress, destinationAddress, frameData);
-            oneOf(destinationListener).onFrame(with(equal(expectedFrame)));
-        }});
-
-        sourceAdapter.send(destinationAddress, frameData);
-    }
-
-    @Test
     public void connect_two_adapters_directly() {
         final var a = new NetworkAdapter(new NetworkAdapterAddress());
         final var b = new NetworkAdapter(new NetworkAdapterAddress(), listener);
